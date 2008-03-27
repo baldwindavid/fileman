@@ -1,0 +1,12 @@
+= error_messages_for resource.tableize.singularize
+- form_for(resource.downcase, :url => eval("formatted_#{resource.tableize}_path(:js)"), :html => { :multipart => true, :target => 'upload_frame', :id => "#{resource.downcase}_new_form" }) do |f|
+  = render :partial => "/fileman/form", :locals=>{ :f => f, :resource => resource }
+  - if options[:belongs_to]
+    - if options[:polymorphic]
+      = hidden_field_tag "#{options[:polymorphic_name]}_id", options[:belongs_to].id
+      = hidden_field_tag "#{options[:polymorphic_name]}_type", options[:belongs_to].class
+    - else
+      = hidden_field_tag options[:belongs_to].class.to_s.foreign_key, options[:belongs_to].id
+  %p
+    = submit_tag 'Upload'
+    = link_to_function 'Cancel', visual_effect(:toggle_blind, "#{resource.downcase}_new")

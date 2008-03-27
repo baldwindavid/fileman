@@ -1,0 +1,12 @@
+%p
+  %label{"for"=>"#{resource.downcase}_#{resource.downcase}"}
+  = "Choose File:"
+  = f.file_field :uploaded_data
+%p
+  %label{"for"=>"#{resource.downcase}_name"}
+    Link Name:
+  = f.text_field :display_name
+%p
+  %label{"for"=>"#{resource.downcase}_caption"}
+    Caption:
+  = f.text_field :caption
