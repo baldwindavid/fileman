@@ -8,7 +8,7 @@ class <%= class_name %>sController < ApplicationController
   end
 
   def create
-    @<%= singular_name %> = <%= name %>.new(params[:<%= singular_name %>])
+    @<%= singular_name %> = <%= class_name %>.new(params[:<%= singular_name %>])
     
     options = params[:options]
     options.each {|k,v| options[k.to_sym] = ( v == 'true') ? true : false }
