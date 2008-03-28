@@ -1,6 +1,6 @@
 = error_messages_for resource.tableize.singularize
 - form_for(resource.downcase, :url => eval("formatted_#{resource.tableize}_path(:js)"), :html => { :multipart => true, :target => 'upload_frame', :id => "#{resource.downcase}_new_form" }) do |f|
-  = render :partial => "/fileman/form", :locals=>{ :f => f, :resource => resource }
+  = render :partial => "/fileman/form", :locals=>{ :f => f, :resource => resource, :options => options }
   - if options[:belongs_to]
     - if options[:polymorphic]
       = hidden_field_tag "#{options[:polymorphic_name]}_id", options[:belongs_to].id
