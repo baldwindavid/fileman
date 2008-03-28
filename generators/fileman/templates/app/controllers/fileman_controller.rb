@@ -19,7 +19,7 @@ class <%= class_name %>sController < ApplicationController
         format.js do
           responds_to_parent do
             render :update do |page|
-              page.insert_html :bottom, "<%= plural_name %>", :partial => 'fileman/list_item', :object => @<%= singular_name %>
+              page.insert_html :bottom, "<%= plural_name %>", :partial => 'fileman/list_item', :object => @<%= singular_name %>, :locals => {:options => params[:display_options]}
               page.visual_effect :highlight, "<%= singular_name %>_#{@<%= singular_name %>.id}" 
               page[:<%= singular_name %>_new].visual_effect :fade, :delay => 1
               page.form.reset :<%= singular_name %>_new_form
@@ -46,7 +46,7 @@ class <%= class_name %>sController < ApplicationController
         format.js do
           responds_to_parent do
             render :update do |page|
-              page["<%= singular_name %>_#{@<%= singular_name %>.id.to_s}"].replace :partial => 'fileman/list_item', :object => @<%= singular_name %>
+              page["<%= singular_name %>_#{@<%= singular_name %>.id.to_s}"].replace :partial => 'fileman/list_item', :object => @<%= singular_name %>, :locals => {:options => params[:display_options]}
               page.visual_effect :highlight, "<%= singular_name %>_#{@<%= singular_name %>.id}"
             end
           end

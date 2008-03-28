@@ -12,3 +12,7 @@
     %label{"for"=>"#{resource.downcase}_caption"}
       Caption:
     = f.text_field :caption
+- fields_for :display_options do |display_option|
+  = display_option.hidden_field "with_display_name", :value => options[:with_display_name].to_s
+  = display_option.hidden_field "with_caption", :value => options[:with_caption].to_s
+  = display_option.hidden_field "with_icon", :value => options[:with_icon].to_s

@@ -19,6 +19,8 @@ module FilemanHelper
   ## Example Model associations....
     # - has_many :documents, :as => :documentable, :dependent => :destroy
     # - has_many :attachments
+    
+  # make sure to add the appropriate route for this model
 
   def fileman(resource, action = :all, options = {})
     
