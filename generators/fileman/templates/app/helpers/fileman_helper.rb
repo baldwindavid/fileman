@@ -32,9 +32,8 @@ module FilemanHelper
     options[:polymorphic_name] ||= "#{resource.downcase}able"
     options[:belongs_to] ||= false
     options[:with_caption] ||= false
-    options[:with_icon] ||= true
-    options[:with_display_name] ||= true
-    options[:iframe_number] ||= 1
+    options[:with_icon] = defined?(options[:with_icon]) ? options[:with_icon] : true
+    options[:with_display_name] = defined?(options[:with_display_name]) ? options[:with_display_name] : true
     
     if options[:action] == :add
       fileman_add(resource, options)
