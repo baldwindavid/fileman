@@ -15,6 +15,8 @@ module FilemanHelper
     # - :with_caption => true || false
     # - :with_icon => true || false
     # - :with_display_name => true || false
+    # - :iframe_number => default is one - use a different number for repeated instances of 
+    #   the same resource and action
   
   ## Example Model associations....
     # - has_many :documents, :as => :documentable, :dependent => :destroy
@@ -22,8 +24,9 @@ module FilemanHelper
     
   # make sure to add the appropriate route for this model
 
-  def fileman(resource, action = :all, options = {})
+  def fileman(resource, options = {})
     
+    options[:action] ||= :all
     options[:resource_title] ||= resource
     options[:polymorphic] ||= false
     options[:polymorphic_name] ||= "#{resource.downcase}able"
@@ -31,18 +34,19 @@ module FilemanHelper
     options[:with_caption] ||= false
     options[:with_icon] ||= true
     options[:with_display_name] ||= true
+    options[:iframe_number] ||= 1
     
-    if action == :add
+    if options[:action] == :add
       fileman_add(resource, options)
-    elsif action == :list
+    elsif options[:action] == :list
       fileman_list(resource, options)
     else
       fileman_add(resource, options)
       fileman_list(resource, options)
     end
     
-    # used for responds to parent
-    haml_tag :iframe, {:id => :upload_frame, :name => :upload_frame, :style => "width:1px;height:1px;border:0px"}
+    fileman_upload_frame
+    
   end
 
   def fileman_list(resource, options)
@@ -60,4 +64,11 @@ module FilemanHelper
       puts(render :partial => "/fileman/new_form", :locals => {:options => options, :resource => resource})
     end
   end
+  
+  def fileman_upload_frame    
+    # used for responds to parent
+    haml_tag :iframe, {:id => "upload_frame", :name => "upload_frame", :style => "width:1px;height:1px;border:0px"} do
+    end
+  end  
+  
 end
