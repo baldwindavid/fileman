@@ -1,20 +1,26 @@
 module FilemanHelper
 
-  # :resource_title
-  # :polymorphic => true || false
-  # :polymorphic_name => example: attachable, phonable, edible 
-  #   _id and _type will automatically be added this name
-  #   default is resource name + able => ex. attachment would become attachmentable (stupid)
-  # :belongs_to => object that owns this resource
-  # :with_caption => true || false
-  # :with_icon => true || false
-  # :with_display_name => true || false
+  ## Example usage 
+    # - fileman 'Attachment' -- will display both the list and add facilities
+    # - fileman 'Attachment', :add  -- will display only the :add facility
+    # - fileman 'Attachment', :list -- only the list facility
   
-  # Example Model associations....
-  # - has_many :documents, :as => :documentable, :dependent => :destroy
-  # - has_many :attachments
+  ## Options
+    # - :resource_title
+    # - :polymorphic => true || false
+    # - :polymorphic_name => example: attachable, phonable, edible 
+    # -  _id and _type will automatically be added this name
+    # -  default is resource name + able => ex. attachment would become attachmentable (stupid)
+    # - :belongs_to => object that owns this resource
+    # - :with_caption => true || false
+    # - :with_icon => true || false
+    # - :with_display_name => true || false
+  
+  ## Example Model associations....
+    # - has_many :documents, :as => :documentable, :dependent => :destroy
+    # - has_many :attachments
 
-  def fileman(action, resource, options = {})
+  def fileman(resource, action = :all, options = {})
     
     options[:resource_title] ||= resource
     options[:polymorphic] ||= false
@@ -28,16 +34,15 @@ module FilemanHelper
       fileman_add(resource, options)
     elsif action == :list
       fileman_list(resource, options)
+    else
+      fileman_add(resource, options)
+      fileman_list(resource, options)
     end
     
     # used for responds to parent
     haml_tag :iframe, {:id => :upload_frame, :name => :upload_frame, :style => "width:1px;height:1px;border:0px"}
-    
   end
 
-  # takes resource file Model name => ex. Attachment, Document, Image
-  # Options
-  #   - belongs_to
   def fileman_list(resource, options)
     haml_tag :ul, {:id => resource.tableize, :class => 'none'} do
       owned_resources = options[:belongs_to] ? eval("options[:belongs_to].#{resource.tableize}") : resource.constantize.find(:all)

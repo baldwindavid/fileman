@@ -1,5 +1,12 @@
 class <%= class_name %>sController < ApplicationController
 
+  def index
+    @<%= plural_name %> = <%= class_name %>.find(:all)
+    respond_to do |format|
+      format.html
+    end
+  end
+
   def create
     @<%= singular_name %> = <%= name %>.new(params[:<%= singular_name %>])
     # if polymorphic or ownership
