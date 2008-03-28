@@ -2,11 +2,13 @@ module FilemanHelper
 
   ## Example usage 
     # - fileman 'Attachment' -- will display both the list and add facilities
-    # - fileman 'Attachment', :add  -- will display only the :add facility
-    # - fileman 'Attachment', :list -- only the list facility
+    # - fileman 'Attachment', :facility => :add  -- will display only the :add facility
+    # - fileman 'Attachment', :facility => :list -- only the list facility
   
   ## Options
-    # - :resource_title
+    # - :with_delete => true || false -- display the delete link?
+    # - :with_update => true || false -- display the update link?
+    # - :facility => :all (default) || :add || :: list -- ability to separate out facilities
     # - :polymorphic => true || false
     # - :polymorphic_name => example: attachable, phonable, edible 
     # -  _id and _type will automatically be added this name
@@ -23,31 +25,34 @@ module FilemanHelper
   # make sure to add the appropriate route for this model
 
   def fileman(resource, options = {})
+  options = {
+    :with_caption => false,
+    :with_display_name => true,
+    :with_icon => true,
+    :belongs_to => false,
+    :with_delete => true,
+    :with_update => true,
+    :facility => :all,
+    :polymorphic => false,
+    :polymorphic_name => "#{resource.downcase}able"
+  }.merge(options)
     
-    options[:action] ||= :all
-    options[:resource_title] ||= resource
-    options[:polymorphic] ||= false
-    options[:polymorphic_name] ||= "#{resource.downcase}able"
-    options[:belongs_to] ||= false
-    options[:with_caption] ||= false
-    options[:with_icon] = defined?(options[:with_icon]) ? options[:with_icon] : true
-    options[:with_display_name] = defined?(options[:with_display_name]) ? options[:with_display_name] : true
-    
-    if options[:action] == :add
-      fileman_add(resource, options)
-    elsif options[:action] == :list
-      fileman_list(resource, options)
-    else
-      fileman_add(resource, options)
-      fileman_list(resource, options)
+    haml_tag :div, {:class => 'fileman'} do
+      if options[:facility] == :add
+        fileman_add(resource, options)
+      elsif options[:facility] == :list
+        fileman_list(resource, options)
+      else
+        fileman_add(resource, options)
+        fileman_list(resource, options)
+      end
+      fileman_upload_frame
     end
-    
-    fileman_upload_frame
     
   end
 
   def fileman_list(resource, options)
-    haml_tag :ul, {:id => resource.tableize, :class => 'none'} do
+    haml_tag :ul, {:id => resource.tableize, :style => 'list-style:none; margin-left:0'} do
       owned_resources = options[:belongs_to] ? eval("options[:belongs_to].#{resource.tableize}") : resource.constantize.find(:all)
       owned_resources.each do |item|
         puts(render :partial => "/fileman/list_item", :object => item, :locals => {:resource => resource, :options => options })

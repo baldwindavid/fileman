@@ -9,8 +9,8 @@ class Create<%= class_name %>s < ActiveRecord::Migration
       t.integer "width"
       t.integer "height"
       # Uncomment for Polymorphism
-      # t.integer "whateverable_id"
-      # t.string  "whateverable_type"
+      # t.integer "<%= singular_name %>able_id"
+      # t.string  "<%= singular_name %>able_type"
       t.string  "display_name"
       t.string    "caption"
     end
