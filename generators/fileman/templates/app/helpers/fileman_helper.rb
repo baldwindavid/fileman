@@ -15,8 +15,6 @@ module FilemanHelper
     # - :with_caption => true || false
     # - :with_icon => true || false
     # - :with_display_name => true || false
-    # - :iframe_number => default is one - use a different number for repeated instances of 
-    #   the same resource and action
   
   ## Example Model associations....
     # - has_many :documents, :as => :documentable, :dependent => :destroy
