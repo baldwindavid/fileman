@@ -55,15 +55,15 @@ module FilemanHelper
     haml_tag :ul, {:id => resource.tableize, :style => 'list-style:none; margin-left:0'} do
       owned_resources = options[:belongs_to] ? eval("options[:belongs_to].#{resource.tableize}") : resource.constantize.find(:all)
       owned_resources.each do |item|
-        puts(render :partial => "/fileman/list_item", :object => item, :locals => {:resource => resource, :options => options })
+        puts render(:partial => "/fileman/list_item", :object => item, :locals => {:resource => resource, :options => options })
       end
     end  
   end
 
   def fileman_add(resource, options)
-    puts(link_to_function "Add #{options[:resource_title]}", visual_effect(:toggle_appear, "#{resource.downcase}_new"))
+    puts link_to_function("Add #{options[:resource_title]}", visual_effect(:toggle_appear, "#{resource.downcase}_new"))
     haml_tag :div, {:id => "#{resource.downcase}_new", :style => 'display:none'} do
-      puts(render :partial => "/fileman/new_form", :locals => {:options => options, :resource => resource})
+      puts render(:partial => "/fileman/new_form", :locals => {:options => options, :resource => resource})
     end
   end
   
