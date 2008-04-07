@@ -1,4 +1,4 @@
-= error_messages_for resource.tableize
+= error_messages_for resource.tableize.singularize
 - form_for(resource.tableize.singularize, :url => eval("formatted_#{resource.tableize}_path(:js)"), :html => { :multipart => true, :target => 'upload_frame', :id => "#{resource.tableize.singularize}_new_form" }) do |f|
   = render :partial => "/fileman/form", :locals=>{ :f => f, :resource => resource, :options => options }
   - if options[:belongs_to]
