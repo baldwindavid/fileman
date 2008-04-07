@@ -12,7 +12,7 @@
       - if options[:with_delete]
         = link_to_remote "Delete", {:url => eval("#{list_item.class.to_s.tableize.singularize}_path(list_item)"), :method => :delete, :confirm => "Are you sure?"}
   %div{:id => "#{list_item.class.to_s.tableize.singularize}_edit_#{list_item.id}", :style => "display:none"}
-    = error_messages_for list_item.class.to_s.tableize
+    = error_messages_for list_item.class.to_s.tableize.singularize
     - form_for(list_item, :url => eval("formatted_#{list_item.class.to_s.tableize.singularize}_path(list_item, :js)"), :html => { :multipart => true, :method => :put, :target => 'upload_frame' }) do |f|
       = render :partial => "/fileman/form", :locals => { :f => f, :resource => list_item.class.to_s, :options => options}
       %p
