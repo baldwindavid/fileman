@@ -6,15 +6,15 @@
     %span.small
       \-
       - if options[:with_update]
-        = link_to_function "Update", visual_effect(:toggle_appear, "#{list_item.class.to_s.downcase}_edit_#{list_item.id}")
+        = link_to_function "Update", visual_effect(:toggle_appear, "#{list_item.class.to_s.tableize.singularize}_edit_#{list_item.id}")
       - if options[:with_update] && options[:with_delete]
         |
       - if options[:with_delete]
-        = link_to_remote "Delete", {:url => eval("#{list_item.class.to_s.downcase}_path(list_item)"), :method => :delete, :confirm => "Are you sure?"}
-  %div{:id => "#{list_item.class.to_s.downcase}_edit_#{list_item.id}", :style => "display:none"}
-    = error_messages_for list_item.class.to_s.downcase
-    - form_for(list_item, :url => eval("formatted_#{list_item.class.to_s.downcase}_path(list_item, :js)"), :html => { :multipart => true, :method => :put, :target => 'upload_frame' }) do |f|
+        = link_to_remote "Delete", {:url => eval("#{list_item.class.to_s.tableize.singularize}_path(list_item)"), :method => :delete, :confirm => "Are you sure?"}
+  %div{:id => "#{list_item.class.to_s.tableize.singularize}_edit_#{list_item.id}", :style => "display:none"}
+    = error_messages_for list_item.class.to_s.tableize
+    - form_for(list_item, :url => eval("formatted_#{list_item.class.to_s.tableize.singularize}_path(list_item, :js)"), :html => { :multipart => true, :method => :put, :target => 'upload_frame' }) do |f|
       = render :partial => "/fileman/form", :locals => { :f => f, :resource => list_item.class.to_s, :options => options}
       %p
         = submit_tag 'Upload'
-      = link_to_function 'Cancel', visual_effect(:toggle_blind, "#{list_item.class.to_s.downcase}_edit_#{list_item.id.to_s}")
+      = link_to_function 'Cancel', visual_effect(:toggle_blind, "#{list_item.class.to_s.tableize.singularize}_edit_#{list_item.id.to_s}")

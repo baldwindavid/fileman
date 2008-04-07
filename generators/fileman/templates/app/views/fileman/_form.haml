@@ -1,15 +1,15 @@
 %p
-  %label{"for"=>"#{resource.downcase}_#{resource.downcase}"}
+  %label{"for"=>"#{resource.tableize.singularize}_#{resource.tableize.singularize}"}
   = "Choose File:"
   = f.file_field :uploaded_data
 - if options[:with_display_name]
   %p
-    %label{"for"=>"#{resource.downcase}_name"}
+    %label{"for"=>"#{resource.tableize.singularize}_name"}
       Link Name:
     = f.text_field :display_name
 - if options[:with_caption]
   %p
-    %label{"for"=>"#{resource.downcase}_caption"}
+    %label{"for"=>"#{resource.tableize.singularize}_caption"}
       Caption:
     = f.text_field :caption
 - fields_for :options do |option|

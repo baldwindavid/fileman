@@ -34,7 +34,7 @@ module FilemanHelper
     :with_update => true,
     :facility => :all,
     :polymorphic => false,
-    :polymorphic_name => "#{resource.downcase}able"
+    :polymorphic_name => "#{resource.tableize.singularize}able"
   }.merge(options)
     
     haml_tag :div, {:class => 'fileman'} do
@@ -61,8 +61,8 @@ module FilemanHelper
   end
 
   def fileman_add(resource, options)
-    puts link_to_function("Add #{options[:resource_title]}", visual_effect(:toggle_appear, "#{resource.downcase}_new"))
-    haml_tag :div, {:id => "#{resource.downcase}_new", :style => 'display:none'} do
+    puts link_to_function("Add #{options[:resource_title]}", visual_effect(:toggle_appear, "#{resource.tableize.singularize}_new"))
+    haml_tag :div, {:id => "#{resource.tableize.singularize}_new", :style => 'display:none'} do
       puts render(:partial => "/fileman/new_form", :locals => {:options => options, :resource => resource})
     end
   end

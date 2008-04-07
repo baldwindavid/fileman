@@ -1,12 +1,12 @@
-= error_messages_for resource.tableize.singularize
-- form_for(resource.downcase, :url => eval("formatted_#{resource.tableize}_path(:js)"), :html => { :multipart => true, :target => 'upload_frame', :id => "#{resource.downcase}_new_form" }) do |f|
+= error_messages_for resource.tableize
+- form_for(resource.tableize.singularize, :url => eval("formatted_#{resource.tableize}_path(:js)"), :html => { :multipart => true, :target => 'upload_frame', :id => "#{resource.tableize.singularize}_new_form" }) do |f|
   = render :partial => "/fileman/form", :locals=>{ :f => f, :resource => resource, :options => options }
   - if options[:belongs_to]
     - if options[:polymorphic]
-      = hidden_field_tag "#{options[:polymorphic_name]}_id", options[:belongs_to].id
-      = hidden_field_tag "#{options[:polymorphic_name]}_type", options[:belongs_to].class
+      = hidden_field_tag "#{resource.tableize.singularize}[#{options[:polymorphic_name]}_id]", options[:belongs_to].id
+      = hidden_field_tag "#{resource.tableize.singularize}[#{options[:polymorphic_name]}_type]", options[:belongs_to].class.to_s
     - else
-      = hidden_field_tag options[:belongs_to].class.to_s.foreign_key, options[:belongs_to].id
+      = hidden_field_tag "#{resource.tableize.singularize}[#{options[:belongs_to].class.to_s.foreign_key}]", options[:belongs_to].id
   %p
     = submit_tag 'Upload'
-    = link_to_function 'Cancel', visual_effect(:toggle_blind, "#{resource.downcase}_new")
+    = link_to_function 'Cancel', visual_effect(:toggle_blind, "#{resource.tableize.singularize}_new")
