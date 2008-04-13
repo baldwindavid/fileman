@@ -1,29 +1,5 @@
 module FilemanHelper
 
-  ## Example usage 
-    # - fileman 'Attachment' -- will display both the list and add facilities
-    # - fileman 'Attachment', :facility => :add  -- will display only the :add facility
-    # - fileman 'Attachment', :facility => :list -- only the list facility
-  
-  ## Options
-    # - :with_delete => true || false -- display the delete link?
-    # - :with_update => true || false -- display the update link?
-    # - :facility => :all (default) || :add || :: list -- ability to separate out facilities
-    # - :polymorphic => true || false
-    # - :polymorphic_name => example: attachable, phonable, edible 
-    # -  _id and _type will automatically be added this name
-    # -  default is resource name + able => ex. attachment would become attachmentable (stupid)
-    # - :belongs_to => object that owns this resource
-    # - :with_caption => true || false
-    # - :with_icon => true || false
-    # - :with_display_name => true || false
-  
-  ## Example Model associations....
-    # - has_many :documents, :as => :documentable, :dependent => :destroy
-    # - has_many :attachments
-    
-  # make sure to add the appropriate route for this model
-
   def fileman(resource, options = {})
   options = {
     :with_caption => false,

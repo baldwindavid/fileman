@@ -1,13 +1,106 @@
 Fileman
 =======
 
-File management facility.
+USAGE STEPS
+------------
 
+1)  GENERATOR:  Run generator
+  script/generate fileman model_name
+  
+  As an example we will use "Document" as the model name
+  
+  script/generate fileman Document
+  ...
+  
+  create  app/helpers/fileman_helper.rb
+  create  app/views/fileman
+  create  app/views/fileman/_form.haml
+  create  app/views/fileman/_list_item.haml
+  create  app/views/fileman/_new_form.haml
+  create  app/views/documents
+  create  app/views/documents/index.haml
+  create  app/models/document.rb
+  create  app/controllers/documents_controller.rb
+  exists  db/migrate
+  create  db/migrate/003_create_documents.rb
+  
+2)  PREPARATION:  You now need to decide whether this attachment_fu object will be owned by another object and, if so, if that relationship will be polymorphic.
+  
+  OPTION 1 - Document is not owned
+  --------
+    You're good to go on this step - go to step 3
+  
+  OPTION 2 - Document has a single owner...
+  -------- 
+    app/models/document.rb...
+      Uncomment and change "whatever" to whatever the object is that owns this document
+      Let's say it is a specific User that owns this document
+        # for single ownership associations
+        belongs_to :user_id
+    db/migrate/migration.rb
+      Do the same for the migration
+        # Uncomment for and change to appropriate owning object type for Single Ownership Relationships
+        t.integer :user_id
+    app/models/user.rb... (example)
+      Add the appropriate has_many declaration in the object that owns these documents...
+      has_many :documents
+  
+  OPTION 3 - Document is owned by any object (polymorphic)
+  --------    
+    app/models/document.rb...
+      Uncomment the polymorphic belongs_to association
+      As a default the generator will set this to the model name + "able"
+      This may or may not be to your liking so feel free to manually change it
+        # for polymorphic associations
+        belongs_to :documentable, :polymorphic => true
+    db/migrate/migration.rb
+      Do the same for the migration
+        # Uncomment for Polymorphic Relationships
+        # t.integer :documentable_id
+        # t.string  :documentable_type
+    app/models/user.rb... (example)
+      Add the appropriate has_many declaration any objects that own these documents...
+      has_many :documents, :as => :documentable, :dependent => :destroy
+    
+3)  RUN MIGRATION - run the migration    
 
-Example
-=======
-
-Fileman example
-
+4)  ADD ROUTE to config/routes.rb
+  map.resources :documents
+    
+5)  USAGE
+  
+  Most of the action will happen in the fileman_helper and views/fileman/ partials
+  
+  Note that there will be an example fileman facility automatically created for the "Document" model that we have created.  This will be in views/documents/index.haml
+  
+  This is the simplest implementation of the fileman helper and consists of...
+  
+  = fileman 'Document'
+  
+  This will display a facility to add new documents and also show those documents in a list.  Of course, in most cases you will be using this within a different view.
+  
+  There are a number of options to change what functionality and relationships are displayed.
+  
+  OPTIONS:
+  --------
+    :with_delete => true || false -- display the delete link?
+    :with_update => true || false -- display the update link?
+    
+    :facility => :all (default) || :add || :: list -- ability to separate out facilities
+      fileman 'Document' -- will display both the list and add facilities
+      fileman 'Document', :facility => :add  -- will display only the :add facility
+      fileman 'Document', :facility => :list -- only the list facility
+    
+    :polymorphic => true || false
+    :polymorphic_name => example: 'attachable', 'phonable', 'edible' 
+      - _id and _type will automatically be added to this name
+      - default is resource name + able => ex. attachment would become attachmentable
+    :belongs_to => object that owns this resource
+    
+    :with_display_name => true || false
+    :with_caption => true || false
+      There are display name and caption fields automatically created for you.  You can use them
+    :with_icon => true || false - for acts_as_iconic plugin
+    
 
 Copyright (c) 2008 David Baldwin, released under the MIT license
