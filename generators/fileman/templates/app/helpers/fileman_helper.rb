@@ -14,7 +14,8 @@ module FilemanHelper
     :image_size => false,
     :polymorphic => false,
     :polymorphic_name => "#{resource.tableize.singularize}able",
-    :single_upload => false
+    :single_upload => false,
+    :add_browse_visible => false
   }.merge(options)
     
     haml_tag :div, {:class => 'fileman'} do
@@ -43,8 +44,8 @@ module FilemanHelper
   def fileman_add(resource, options)
     unless at_limit(resource, options)
       haml_tag :div, {:id => "#{resource.tableize.singularize}_add_facility"} do
-        puts link_to_function("Add #{options[:resource_title]}", visual_effect(:toggle_appear, "#{resource.tableize.singularize}_new")) unless options[:single_upload]
-        haml_tag :div, {:id => "#{resource.tableize.singularize}_new", :style => "#{'display:none' unless options[:single_upload]}"} do
+        puts link_to_function("Add #{options[:resource_title]}", visual_effect(:toggle_appear, "#{resource.tableize.singularize}_new")) unless options[:single_upload] || options[:add_browse_visible]
+        haml_tag :div, {:id => "#{resource.tableize.singularize}_new", :style => "#{'display:none' unless options[:single_upload] || options[:add_browse_visible]}"} do
           puts render(:partial => "/fileman/new_form", :locals => {:options => options, :resource => resource})
         end
       end
@@ -60,7 +61,7 @@ module FilemanHelper
   private
   
   def get_owned_resources(resource, options)
-    options[:belongs_to] ? eval("options[:belongs_to].#{resource.tableize}") : resource.constantize.find(:all)
+    options[:belongs_to] ? eval("options[:belongs_to].#{resource.tableize}") : resource.constantize.find_all_by_parent_id(nil)
   end
   
   def at_limit(resource, options)

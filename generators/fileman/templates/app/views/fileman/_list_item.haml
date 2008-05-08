@@ -1,7 +1,7 @@
 %li[list_item]
   - if options[:with_icon]
     = image_tag list_item.icon_path
-  - if options[:with_display_image]
+  - if options[:with_image]
     = image_tag eval("list_item.public_filename#{'("' + options[:image_size] + '")' if options[:image_size]}")
   - if options[:with_link]
     = link_to list_item.name, list_item.public_filename, :target => :blank

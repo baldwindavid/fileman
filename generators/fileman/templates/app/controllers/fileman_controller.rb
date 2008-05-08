@@ -25,7 +25,7 @@ class <%= class_name %>sController < ApplicationController
             render :update do |page|
               page.insert_html :bottom, "<%= plural_name %>", :partial => 'fileman/list_item', :object => @<%= singular_name %>, :locals => {:options => options}
               page.visual_effect :highlight, "<%= singular_name %>_#{@<%= singular_name %>.id}" 
-              page[:<%= singular_name %>_new].visual_effect :fade, :delay => 1
+              page[:<%= singular_name %>_new].visual_effect :fade, :delay => 1 unless options[:add_browse_visible]
               page.form.reset :<%= singular_name %>_new_form
               page[:<%= singular_name %>_add_facility].remove if options[:single_upload]
             end

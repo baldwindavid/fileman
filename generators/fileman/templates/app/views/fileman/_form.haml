@@ -13,5 +13,5 @@
       Caption:
     = f.text_field :caption
 - fields_for :options do |option|
-  - [ :with_delete, :with_update, :with_display_name, :with_caption, :with_icon ].each do |o|
+  - [ :with_delete, :with_update, :with_display_name, :with_caption, :with_icon, :with_image, :image_size, :with_link, :single_upload, :add_browse_visible ].each do |o|
     = option.hidden_field o, :value => options[o].to_s
