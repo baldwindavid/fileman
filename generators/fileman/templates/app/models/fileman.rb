@@ -13,6 +13,15 @@ class <%= class_name %> < ActiveRecord::Base
   has_attachment :storage => :file_system,
                  :processor => :Rmagick,
                  :size => 0..2.megabytes
+                 
+  # has_attachment :content_type => :image, 
+                # :storage => :file_system, 
+                # :resize_to => '164x164',
+                # :thumbnails => { :thumb => '100x100' },
+                # :processor => :Rmagick,
+                # :size => 0..2.megabytes,
+                # :path_prefix => "public/images/#{table_name}"               
+                 
   validates_as_attachment
     
   def name
