@@ -4,7 +4,7 @@ module FilemanHelper
   options = {
     :with_caption => false,
     :with_display_name => true,
-    :with_icon => true,
+    :with_icon => false,
     :belongs_to => false,
     :with_delete => true,
     :with_update => true,
