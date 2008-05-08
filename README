@@ -1,6 +1,11 @@
 Fileman
 =======
 
+IMPORTANT: You will need the following plugins...
+  - haml - http://haml.hamptoncatlin.com/download/
+  - attachment_fu - http://svn.techno-weenie.net/projects/plugins/attachment_fu/
+  - acts_as_iconic (optional: if you don't have this you will need the :with_icon option set to false) - git://github.com/bilson/acts_as_iconic.git
+
 USAGE STEPS
 ------------
 

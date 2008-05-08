@@ -11,7 +11,7 @@ class <%= class_name %>sController < ApplicationController
     @<%= singular_name %> = <%= class_name %>.new(params[:<%= singular_name %>])
     
     options = params[:options]
-    options.each {|k,v| options[k.to_sym] = ( v == 'true') ? true : false }
+    options.each {|k,v| options[k.to_sym] = ( v == 'true') ? true : ( (v == 'false') ? false : v ) }
     
     # if polymorphic or ownership
     #@<%= singular_name %>.whateverable_id = params[:whateverable_id]
@@ -27,6 +27,7 @@ class <%= class_name %>sController < ApplicationController
               page.visual_effect :highlight, "<%= singular_name %>_#{@<%= singular_name %>.id}" 
               page[:<%= singular_name %>_new].visual_effect :fade, :delay => 1
               page.form.reset :<%= singular_name %>_new_form
+              page[:<%= singular_name %>_add_facility].remove if options[:single_upload]
             end
           end
         end
@@ -45,7 +46,7 @@ class <%= class_name %>sController < ApplicationController
     @<%= singular_name %> = <%= class_name %>.find(params[:id])
 
     options = params[:options]
-    options.each {|k,v| options[k.to_sym] = ( v == 'true') ? true : false }
+    options.each {|k,v| options[k.to_sym] = ( v == 'true') ? true : ( (v == 'false') ? false : v ) }
 
     respond_to do |format|
       if @<%= singular_name %>.update_attributes(params[:<%= singular_name %>])

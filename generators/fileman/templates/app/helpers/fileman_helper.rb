@@ -9,8 +9,12 @@ module FilemanHelper
     :with_delete => true,
     :with_update => true,
     :facility => :all,
+    :with_link => true,
+    :with_display_image => false,
+    :image_size => false,
     :polymorphic => false,
-    :polymorphic_name => "#{resource.tableize.singularize}able"
+    :polymorphic_name => "#{resource.tableize.singularize}able",
+    :single_upload => false
   }.merge(options)
     
     haml_tag :div, {:class => 'fileman'} do
@@ -29,7 +33,7 @@ module FilemanHelper
 
   def fileman_list(resource, options)
     haml_tag :ul, {:id => resource.tableize, :style => 'list-style:none; margin-left:0'} do
-      owned_resources = options[:belongs_to] ? eval("options[:belongs_to].#{resource.tableize}") : resource.constantize.find(:all)
+      owned_resources = get_owned_resources(resource, options)
       owned_resources.each do |item|
         puts render(:partial => "/fileman/list_item", :object => item, :locals => {:resource => resource, :options => options })
       end
@@ -37,9 +41,13 @@ module FilemanHelper
   end
 
   def fileman_add(resource, options)
-    puts link_to_function("Add #{options[:resource_title]}", visual_effect(:toggle_appear, "#{resource.tableize.singularize}_new"))
-    haml_tag :div, {:id => "#{resource.tableize.singularize}_new", :style => 'display:none'} do
-      puts render(:partial => "/fileman/new_form", :locals => {:options => options, :resource => resource})
+    unless at_limit(resource, options)
+      haml_tag :div, {:id => "#{resource.tableize.singularize}_add_facility"} do
+        puts link_to_function("Add #{options[:resource_title]}", visual_effect(:toggle_appear, "#{resource.tableize.singularize}_new")) unless options[:single_upload]
+        haml_tag :div, {:id => "#{resource.tableize.singularize}_new", :style => "#{'display:none' unless options[:single_upload]}"} do
+          puts render(:partial => "/fileman/new_form", :locals => {:options => options, :resource => resource})
+        end
+      end
     end
   end
   
@@ -47,6 +55,20 @@ module FilemanHelper
     # used for responds to parent
     haml_tag :iframe, {:id => "upload_frame", :name => "upload_frame", :style => "width:1px;height:1px;border:0px"} do
     end
-  end  
+  end
+  
+  private
+  
+  def get_owned_resources(resource, options)
+    options[:belongs_to] ? eval("options[:belongs_to].#{resource.tableize}") : resource.constantize.find(:all)
+  end
+  
+  def at_limit(resource, options)
+    if options[:single_upload]
+      get_owned_resources(resource, options).count >= 1
+    else
+      false
+    end
+  end
   
 end
