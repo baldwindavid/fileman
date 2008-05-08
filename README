@@ -1,11 +1,6 @@
 Fileman
 =======
 
-IMPORTANT: You will need the following plugins...
-  - haml - http://haml.hamptoncatlin.com/download/
-  - attachment_fu - http://svn.techno-weenie.net/projects/plugins/attachment_fu/
-  - acts_as_iconic (optional: if you don't have this you will need the :with_icon option set to false) - git://github.com/bilson/acts_as_iconic.git
-
 USAGE STEPS
 ------------
 
@@ -104,8 +99,14 @@ USAGE STEPS
     
     :with_display_name => true || false
     :with_caption => true || false
-      There are display name and caption fields automatically created for you.  You can use them
-    :with_icon => true || false - for acts_as_iconic plugin
+      There are display name and caption fields automatically created for you.
+    :with_icon => true || false - for acts_as_iconic plugin (defaults to true)
+    :with_link => true || false - show or hide the filename/linkname and link (defaults to true)
+    
+    :with_display_image => true || false - if this is an image model you can show the image (default is false)
+    :image_size => 'thumbnail_size' - specify a thumbnail name (defaults to full size)
+    
+    :single_upload => true || false - specify if this should only allow a single upload (defaults to false)
     
 
 Copyright (c) 2008 David Baldwin, released under the MIT license
