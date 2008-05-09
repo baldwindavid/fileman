@@ -16,7 +16,8 @@ module FilemanHelper
     :polymorphic_name => "#{resource.tableize.singularize}able",
     :single_upload => false,
     :add_browse_visible => false,
-    :extras => {}
+    :extras => {},
+    :find => false
   }.merge(options)
     
     haml_tag :div, {:class => 'fileman'} do
@@ -62,7 +63,19 @@ module FilemanHelper
   private
   
   def get_owned_resources(resource, options)
-    options[:belongs_to] ? eval("options[:belongs_to].#{resource.tableize}") : resource.constantize.find_all_by_parent_id(nil)
+    if options[:belongs_to]
+      resources = eval("options[:belongs_to].#{resource.tableize}")
+      if options[:find]
+        resources = eval("resources.#{options[:find]}")
+      end
+      return resources
+    else
+      if options[:find]
+        eval("resource.constantize.#{options[:find]}")
+      else
+        resource.constantize.find_all_by_parent_id(nil)
+      end
+    end
   end
   
   def at_limit(resource, options)
