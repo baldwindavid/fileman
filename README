@@ -48,6 +48,7 @@ USAGE STEPS
       Do the same for the migration
         # Uncomment for and change to appropriate owning object type for Single Ownership Relationships
         t.integer :user_id
+        - add any custom fields - you will be able to fill these in automatically
     app/models/user.rb... (example)
       Add the appropriate has_many declaration in the object that owns these documents...
       has_many :documents
@@ -65,6 +66,7 @@ USAGE STEPS
         # Uncomment for Polymorphic Relationships
         # t.integer :documentable_id
         # t.string  :documentable_type
+      - add any custom fields - you will be able to fill these in automatically
     app/models/user.rb... (example)
       Add the appropriate has_many declaration any objects that own these documents...
       has_many :documents, :as => :documentable, :dependent => :destroy
@@ -119,6 +121,11 @@ USAGE STEPS
     
     :extras => {} - add any custom field name that exists in your model
       Example: :extras => { :author_name => 'somebody', :pi => 3.14 }
-      These will be added when the record is created
+      These will be added in the appropriate field of your table when the record is created
+
+    :find => option to add a custom find query for the file list - If ownership is set with :belongs_to, then the query will be scoped
+      Examples: fileman 'Document', :belongs_to => @some_object, :find => 'find_all_by_usage("accounting")' -- returns a list of all Documents belonging to @some_object that have a usage of "accounting"
+                fileman 'Document', :belongs_to => @some_object, :polymorphic => true, :find => 'find_all_by_usage("accounting") -- same as above except recognizes the polymorphic relationship
+                
 
 Copyright (c) 2008 David Baldwin, released under the MIT license
