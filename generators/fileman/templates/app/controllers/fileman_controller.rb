@@ -11,7 +11,7 @@ class <%= class_name %>sController < ApplicationController
     @<%= singular_name %> = <%= class_name %>.new(params[:<%= singular_name %>])
     
     options = params[:options]
-    options = string_to_classed_value(options)
+    options = options.classed_values
     # this needs to be set because options[:extras].each got set to <%= singular_name %>[:field]
     # the form is still expecting options[:extras] when adding the record
     options[:extras] = {}
@@ -49,7 +49,7 @@ class <%= class_name %>sController < ApplicationController
     @<%= singular_name %> = <%= class_name %>.find(params[:id])
 
     options = params[:options]
-    options = string_to_classed_value(options)
+    options = options.classed_values
     # this needs to be set because options[:extras].each got set to <%= singular_name %>[:field]
     # the form is still expecting options[:extras] when updating the record
     options[:extras] = {}
