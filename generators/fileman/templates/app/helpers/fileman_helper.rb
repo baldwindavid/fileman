@@ -10,7 +10,7 @@ module FilemanHelper
     :with_update => true,
     :facility => :all,
     :with_link => true,
-    :with_display_image => false,
+    :with_image => false,
     :image_size => false,
     :polymorphic => false,
     :polymorphic_name => "#{resource.tableize.singularize}able",
