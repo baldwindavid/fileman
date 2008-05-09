@@ -15,7 +15,8 @@ module FilemanHelper
     :polymorphic => false,
     :polymorphic_name => "#{resource.tableize.singularize}able",
     :single_upload => false,
-    :add_browse_visible => false
+    :add_browse_visible => false,
+    :extras => {}
   }.merge(options)
     
     haml_tag :div, {:class => 'fileman'} do
@@ -36,7 +37,7 @@ module FilemanHelper
     haml_tag :ul, {:id => resource.tableize, :style => 'list-style:none; margin-left:0'} do
       owned_resources = get_owned_resources(resource, options)
       owned_resources.each do |item|
-        puts render(:partial => "/fileman/list_item", :object => item, :locals => {:resource => resource, :options => options })
+        puts render(:partial => "/fileman/list_item", :object => item, :locals => {:resource => resource, :options => options, :is_test => false })
       end
     end  
   end

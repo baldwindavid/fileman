@@ -1,6 +1,13 @@
 Fileman
 =======
 
+Requirements:
+
+IMPORTANT: You will need the following plugins...
+  - haml - http://haml.hamptoncatlin.com/download/
+  - attachment_fu - http://svn.techno-weenie.net/projects/plugins/attachment_fu/
+  - 
+
 USAGE STEPS
 ------------
 
@@ -110,5 +117,8 @@ USAGE STEPS
     
     :add_browse_visible => true || false - keeps the add facility file browser open at all times (defaults to false)
     
+    :extras => {} - add any custom field name that exists in your model
+      Example: :extras => { :author_name => 'somebody', :pi => 3.14 }
+      These will be added when the record is created
 
 Copyright (c) 2008 David Baldwin, released under the MIT license
