@@ -8,9 +8,10 @@ IMPORTANT: You will need the following plugins...
   - attachment_fu - http://svn.techno-weenie.net/projects/plugins/attachment_fu/
   - responds_to_parent - http://responds-to-parent.googlecode.com/svn/trunk/
   - dnb_core_ext - git clone git://github.com/bilson/dnb_core_ext.git  (these are just some basic methods added to Hash and String - the methods are located in init.rb)
-
-USAGE STEPS
-------------
+  
+-----------------
+SETUP a FILEMAN
+-----------------
 
 1)  GENERATOR:  Run generator
   script/generate fileman model_name
@@ -77,8 +78,13 @@ USAGE STEPS
 4)  ADD ROUTE to config/routes.rb
   map.resources :documents
     
-5)  USAGE
-  
+5)  IMPORTANT:  add javascript_include_tag :defaults to your layout...unless you don't mind the plugin being completely useless
+
+
+--------------------------
+USAGE in the VIEW
+--------------------------
+
   Most of the action will happen in the fileman_helper and views/fileman/ partials
   
   Note that there will be an example fileman facility automatically created for the "Document" model that we have created.  This will be in views/documents/index.haml
