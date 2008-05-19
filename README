@@ -9,6 +9,10 @@ IMPORTANT: You will need the following plugins...
   - responds_to_parent - http://responds-to-parent.googlecode.com/svn/trunk/
   - dnb_core_ext - git clone git://github.com/bilson/dnb_core_ext.git  (these are just some basic methods added to Hash and String - the methods are located in init.rb)
   
+  Optional Plugin...
+    - acts_as_iconic - git clone git@github.com:bilson/acts_as_iconic.git
+    This plugin will allow your models to automatically show an icon beside the uploaded file that corresponds with that file's mime_type
+  
 -----------------
 SETUP a FILEMAN
 -----------------
