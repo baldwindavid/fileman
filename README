@@ -6,7 +6,8 @@ Requirements:
 IMPORTANT: You will need the following plugins...
   - haml - http://haml.hamptoncatlin.com/download/
   - attachment_fu - http://svn.techno-weenie.net/projects/plugins/attachment_fu/
-  - 
+  - responds_to_parent - http://responds-to-parent.googlecode.com/svn/trunk/
+  - dnb_core_ext - git clone git://github.com/bilson/dnb_core_ext.git  (these are just some basic methods added to Hash and String - the methods are located in init.rb)
 
 USAGE STEPS
 ------------
@@ -100,22 +101,20 @@ USAGE STEPS
       fileman 'Document', :facility => :add  -- will display only the :add facility
       fileman 'Document', :facility => :list -- only the list facility
     
-    :polymorphic => true || false
+    :polymorphic => true || false (default is false)
     :polymorphic_name => example: 'attachable', 'phonable', 'edible' 
       - _id and _type will automatically be added to this name
       - default is resource name + able => ex. attachment would become attachmentable
-    :belongs_to => object that owns this resource
+    :belongs_to => object that owns this resource (if there is an owner)
     
-    :with_display_name => true || false
-    :with_caption => true || false
+    :with_display_name => true || false (default is true)
+    :with_caption => true || false (default is false)
       There are display name and caption fields automatically created for you.
-    :with_icon => true || false - for acts_as_iconic plugin (defaults to true)
+    :with_icon => true || false - for acts_as_iconic plugin (defaults to false)
     :with_link => true || false - show or hide the filename/linkname and link (defaults to true)
     
     :with_image => true || false - if this is an image model you can show the image (default is false)
     :image_size => 'thumbnail_size' - specify a thumbnail name (defaults to full size)
-    
-    :single_upload => true || false - specify if this should only allow a single upload (defaults to false)
     
     :add_browse_visible => true || false - keeps the add facility file browser open at all times (defaults to false)
     
@@ -127,5 +126,8 @@ USAGE STEPS
       Examples: fileman 'Document', :belongs_to => @some_object, :find => 'find_all_by_usage("accounting")' -- returns a list of all Documents belonging to @some_object that have a usage of "accounting"
                 fileman 'Document', :belongs_to => @some_object, :polymorphic => true, :find => 'find_all_by_usage("accounting") -- same as above except recognizes the polymorphic relationship
                 
-
+    :association => :has_one || :has_many (default is :has_many) - 
+      This option sets whether fileman will accomodate single or multiple uploads - setting to :has_one will initially show an open file browser.  Upon uploading, the file browser will disappear.  If the file is deleted, the browser will once again show.  Setting to :has_many will default the file browser to hidden, but with an "add" button that will make the browser appear.  With each upload, the browser will again fade out.  This visibility can be overriden by setting :add_browse_visible to true.  Note that this MUST correspond with your association declaration in your model file.
+    
+    
 Copyright (c) 2008 David Baldwin, released under the MIT license

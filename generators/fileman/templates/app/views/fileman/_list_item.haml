@@ -16,7 +16,12 @@
       - if options[:with_update] && options[:with_delete]
         |
       - if options[:with_delete]
-        = link_to_remote "Delete", {:url => eval("#{list_item.class.to_s.tableize.singularize}_path(list_item)"), :method => :delete, :confirm => "Are you sure?"}
+        = link_to_remote "Delete", {:url => eval("#{list_item.class.to_s.tableize.singularize}_path(:id => list_item, :association => :#{options[:association]})"), :method => :delete, :confirm => "Are you sure?"}
+  - if options[:display_caption] && !list_item.caption.blank?
+    %br
+    %span.small{:style => 'margin-left: 20px'}
+      = list_item.caption
+
   %div{:id => "#{list_item.class.to_s.tableize.singularize}_edit_#{list_item.id}", :style => "display:none"}
     = error_messages_for list_item.class.to_s.tableize.singularize
     - form_for(list_item, :url => eval("formatted_#{list_item.class.to_s.tableize.singularize}_path(list_item, :js)"), :html => { :multipart => true, :method => :put, :target => 'upload_frame' }) do |f|
