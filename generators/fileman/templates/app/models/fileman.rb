@@ -8,7 +8,7 @@ class <%= class_name %> < ActiveRecord::Base
   # belongs_to :<%= singular_name %>able, :polymorphic => true
   
   # for single ownership associations
-  # belongs_to :whatever_id
+  # belongs_to :whatever
   
   has_attachment :storage => :file_system,
                  :processor => :Rmagick,

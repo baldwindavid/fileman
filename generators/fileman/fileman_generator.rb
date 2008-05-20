@@ -5,7 +5,7 @@ class FilemanGenerator < Rails::Generator::NamedBase
       m.directory "app/views/fileman"
       m.file "app/views/fileman/_form.haml", "app/views/fileman/_form.haml"
       m.file "app/views/fileman/_list_item.haml", "app/views/fileman/_list_item.haml"
-      m.file "app/views/fileman/_new_form.haml", "app/views/fileman/_add_facility.haml"
+      m.file "app/views/fileman/_add_facility.haml", "app/views/fileman/_add_facility.haml"
       m.directory "app/views/#{plural_name}"
       m.template "app/views/fileman/index.haml", "app/views/#{plural_name}/index.haml"
       m.template "app/models/fileman.rb", "app/models/#{singular_name}.rb"

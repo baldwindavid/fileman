@@ -16,9 +16,6 @@ class <%= class_name %>sController < ApplicationController
     # the form is still expecting options[:extras] when adding the record
     options[:extras] = {}
     
-    # if polymorphic or ownership
-    #@<%= singular_name %>.whateverable_id = params[:whateverable_id]
-    #@<%= singular_name %>.whateverable_type = params[:whateverable_type]
     respond_to do |format|
       if @<%= singular_name %>.save
         flash[:notice] = '<%= class_name %> was successfully created.'
@@ -30,7 +27,7 @@ class <%= class_name %>sController < ApplicationController
               page.visual_effect :highlight, "<%= singular_name %>_#{@<%= singular_name %>.id}" 
               page[:<%= singular_name %>_new].visual_effect :fade, :delay => 1 unless options[:add_browse_visible]
               page.form.reset :<%= singular_name %>_new_form
-              page[:<%= singular_name %>_add_facility].remove if options[:single_upload]
+              page[:<%= singular_name %>_add_facility].remove if options[:association] == 'has_one'
             end
           end
         end
@@ -84,6 +81,8 @@ class <%= class_name %>sController < ApplicationController
       format.js do
         render :update do |page|
           page.remove "<%= singular_name %>_#{@<%= singular_name %>.id}"
+          page[:<%= singular_name %>_add_facility].show
+          page[:<%= singular_name %>_new].show
         end
       end
     end

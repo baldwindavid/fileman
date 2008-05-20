@@ -4,7 +4,7 @@ Fileman
 Requirements:
 
 IMPORTANT: You will need the following plugins...
-  - haml - http://haml.hamptoncatlin.com/download/
+  - haml - http://haml.hamptoncatlin.com/download/ (Note: the edge versions of Haml seem to be problematic with some of the Rails visual_effects - I am using an older stable version)
   - attachment_fu - http://svn.techno-weenie.net/projects/plugins/attachment_fu/
   - responds_to_parent - http://responds-to-parent.googlecode.com/svn/trunk/
   - dnb_core_ext - git clone git://github.com/bilson/dnb_core_ext.git  (these are just some basic methods added to Hash and String - the methods are located in init.rb)
@@ -41,7 +41,9 @@ SETUP a FILEMAN
   
   OPTION 1 - Document is not owned
   --------
-    You're good to go on this step - go to step 3
+    You might be ready to just skip this step and move on, but take a look at the migration just to make sure.
+    db/migrate/00?_create_documents.rb
+      - add any custom fields - you will be able to fill these in automatically
   
   OPTION 2 - Document has a single owner...
   -------- 
@@ -49,15 +51,15 @@ SETUP a FILEMAN
       Uncomment and change "whatever" to whatever the object is that owns this document
       Let's say it is a specific User that owns this document
         # for single ownership associations
-        belongs_to :user_id
-    db/migrate/migration.rb
+        belongs_to :user
+    db/migrate/00?_create_documents.rb
       Do the same for the migration
         # Uncomment for and change to appropriate owning object type for Single Ownership Relationships
         t.integer :user_id
         - add any custom fields - you will be able to fill these in automatically
     app/models/user.rb... (example)
-      Add the appropriate has_many declaration in the object that owns these documents...
-      has_many :documents
+      Add the appropriate has_many or has_one declaration in the object that owns these documents...
+      has_many :documents, :dependent => :destroy
   
   OPTION 3 - Document is owned by any object (polymorphic)
   --------    
@@ -67,14 +69,14 @@ SETUP a FILEMAN
       This may or may not be to your liking so feel free to manually change it
         # for polymorphic associations
         belongs_to :documentable, :polymorphic => true
-    db/migrate/migration.rb
+    db/migrate/00?_create_documents.rb
       Do the same for the migration
         # Uncomment for Polymorphic Relationships
         # t.integer :documentable_id
         # t.string  :documentable_type
       - add any custom fields - you will be able to fill these in automatically
     app/models/user.rb... (example)
-      Add the appropriate has_many declaration any objects that own these documents...
+      Add the appropriate has_many or has_one declaration any objects that own these documents...
       has_many :documents, :as => :documentable, :dependent => :destroy
     
 3)  RUN MIGRATION - run the migration    
@@ -106,10 +108,12 @@ USAGE in the VIEW
     :with_delete => true || false -- display the delete link?
     :with_update => true || false -- display the update link?
     
-    :facility => :all (default) || :add || :: list -- ability to separate out facilities
+    :facility => :all (default) || :list || :add -- ability to separate out facilities
       fileman 'Document' -- will display both the list and add facilities
-      fileman 'Document', :facility => :add  -- will display only the :add facility
       fileman 'Document', :facility => :list -- only the list facility
+      fileman 'Document', :facility => :add
+      This allows you to separate the :add and :list facilities to different parts of the page.
+      Note: The :list must always be present somewhere or it will throw an error upon upload.  Also, make sure that all appropriate options are set on both fileman facilities.
     
     :polymorphic => true || false (default is false)
     :polymorphic_name => example: 'attachable', 'phonable', 'edible' 
@@ -135,6 +139,8 @@ USAGE in the VIEW
     :find => option to add a custom find query for the file list - If ownership is set with :belongs_to, then the query will be scoped
       Examples: fileman 'Document', :belongs_to => @some_object, :find => 'find_all_by_usage("accounting")' -- returns a list of all Documents belonging to @some_object that have a usage of "accounting"
                 fileman 'Document', :belongs_to => @some_object, :polymorphic => true, :find => 'find_all_by_usage("accounting") -- same as above except recognizes the polymorphic relationship
+      Note: This currently only updates with a page refresh
+      
                 
     :association => :has_one || :has_many (default is :has_many) - 
       This option sets whether fileman will accomodate single or multiple uploads - setting to :has_one will initially show an open file browser.  Upon uploading, the file browser will disappear.  If the file is deleted, the browser will once again show.  Setting to :has_many will default the file browser to hidden, but with an "add" button that will make the browser appear.  With each upload, the browser will again fade out.  This visibility can be overriden by setting :add_browse_visible to true.  Note that this MUST correspond with your association declaration in your model file.
