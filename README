@@ -7,7 +7,6 @@ IMPORTANT: You will need the following plugins...
   - haml - http://haml.hamptoncatlin.com/download/ (Note: the edge versions of Haml seem to be problematic with some of the Rails visual_effects - I am using an older stable version)
   - attachment_fu - http://svn.techno-weenie.net/projects/plugins/attachment_fu/
   - responds_to_parent - http://responds-to-parent.googlecode.com/svn/trunk/
-  - dnb_core_ext - git clone git://github.com/bilson/dnb_core_ext.git  (these are just some basic methods added to Hash and String - the methods are located in init.rb)
   
   Optional Plugin...
     - acts_as_iconic - git clone git@github.com:bilson/acts_as_iconic.git
@@ -25,17 +24,17 @@ SETUP a FILEMAN
   script/generate fileman Document
   ...
   
-  create  app/helpers/fileman_helper.rb
   create  app/views/fileman
   create  app/views/fileman/_form.haml
   create  app/views/fileman/_list_item.haml
-  create  app/views/fileman/_new_form.haml
+  create  app/views/fileman/_add_facility.haml
   create  app/views/documents
   create  app/views/documents/index.haml
   create  app/models/document.rb
   create  app/controllers/documents_controller.rb
   exists  db/migrate
-  create  db/migrate/003_create_documents.rb
+  create  db/migrate/012_create_documents.rb
+
   
 2)  PREPARATION:  You now need to decide whether this attachment_fu object will be owned by another object and, if so, if that relationship will be polymorphic.
   
