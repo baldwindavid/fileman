@@ -1,7 +1,6 @@
 class FilemanGenerator < Rails::Generator::NamedBase
   def manifest
     record do |m|
-      m.file "app/helpers/fileman_helper.rb", "app/helpers/fileman_helper.rb"
       m.directory "app/views/fileman"
       m.file "app/views/fileman/_form.haml", "app/views/fileman/_form.haml"
       m.file "app/views/fileman/_list_item.haml", "app/views/fileman/_list_item.haml"
